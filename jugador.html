@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mi personaje</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:wght@400;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="vtt.css">
+<style>
+[hidden]{display:none!important}
+body{background:radial-gradient(ellipse at top,#1a1640 0,#0d1a23 60%);min-height:100%}
+.hoja{max-width:520px;margin:0 auto;padding:0 12px 40px}
+/* acceso */
+.login{max-width:380px;margin:12vh auto;display:grid;gap:12px;padding:20px;text-align:center}
+.login h1{color:var(--br);font-size:24px}.login input{font-size:20px;text-align:center}.login button{font:700 17px Cinzel,serif;padding:10px}
+/* cabecera con foto grande */
+.cab{position:relative;margin:12px 0 0;border-radius:14px;overflow:hidden;border:1px solid var(--ln);background:#0d0a22}
+.foto{width:100%;aspect-ratio:3/4;max-height:62vh;display:flex;align-items:center;justify-content:center;font:700 120px Cinzel,serif;color:#3a4f6a;background:linear-gradient(160deg,#17303f,#0d0a22)}
+.foto img{width:100%;height:100%;object-fit:cover;object-position:top}
+.nom{position:absolute;left:0;right:0;bottom:0;padding:40px 14px 12px;background:linear-gradient(transparent,#000d 45%)}
+.nom h1{font-size:26px;color:#fff;text-shadow:0 2px 6px #000}.nom .al{color:var(--br);font:600 15px Cinzel,serif}.nom small{display:block;color:#cdd8e0;font-size:16px}
+.salir{position:absolute;top:10px;right:10px;font-size:13px;padding:3px 10px;background:#000a}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.chip{background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:8px 4px;text-align:center}.chip b{display:block;font:700 22px Cinzel,serif;color:#fff}.chip span{font:600 12px Cinzel,serif;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
+.chip.pv b{color:#7fe7ab}.chip.cav b{color:var(--az)}
+/* pestañas */
+.tabs{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:8px 0;background:#0d1a23f2;backdrop-filter:blur(4px)}
+.tabs button{font:700 13px Cinzel,serif;padding:8px 2px;border-radius:8px}.tabs button.on{border-color:var(--br);color:var(--br);background:#2a2312}
+h2{font-size:15px;color:var(--br);letter-spacing:.06em;margin:16px 0 8px}
+.atg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.at{background:var(--bg2);border:1px solid var(--ln);border-radius:10px;text-align:center;padding:8px 4px}.at span{font:700 13px Cinzel,serif;color:var(--mu)}.at b{display:block;font:700 26px Cinzel,serif;color:#fff;line-height:1.1}.at i{font-style:normal;color:var(--az);font:700 15px Cinzel,serif}
+.card{background:var(--bg2);border:1px solid var(--ln);border-left:3px solid var(--az);border-radius:0 8px 8px 0;padding:8px 11px;margin-bottom:6px}.card b{font:700 15px Cinzel,serif}.card small{display:block;color:var(--mu);font-size:15px;line-height:1.35}
+.card .tir{float:right;font:700 13px Cinzel,serif;color:var(--br);border:1px solid #6b5a2a;border-radius:6px;padding:1px 7px;margin-left:8px}
+.card.arma{border-left-color:#ff7d6e}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--ln);border-radius:8px;padding:7px 11px;margin-bottom:5px;font-size:16px}.row b{font-family:Cinzel,serif;color:var(--az)}
+.row button{padding:0 9px;font-size:14px}
+.nota{color:var(--mu);font-size:14px;margin:4px 0 8px}
+.trk{display:flex;gap:6px;align-items:center}.trk button{width:34px;height:34px;padding:0;font-size:18px}.trk b{min-width:64px;text-align:center;font:700 18px Cinzel,serif;color:#fff}
+.add{display:grid;grid-template-columns:1fr 64px auto;gap:6px;margin-top:6px}.add input{min-width:0}
+/* guía de dados */
+.dg{display:grid;gap:8px}.dd{display:grid;grid-template-columns:58px 1fr;gap:10px;align-items:center;background:var(--bg2);border:1px solid var(--ln);border-radius:10px;padding:8px}
+.dd svg{width:58px;height:58px}.dd b{font:700 16px Cinzel,serif;color:#cfe6ff}.dd small{display:block;color:#b8c8d4;font-size:15px;line-height:1.35}
+.res{background:#2a2312;border:1px solid #6b5a2a;border-radius:10px;padding:10px;color:#f3e3b0;font-size:16px;margin-top:8px}
+</style></head><body>
+<div class="login" id="login" hidden><h1 class="cz">Mesa de ARCAMEL</h1><div class="st">Escribe la contraseña que te dio el DM.</div><input id="clave" type="password" placeholder="Contraseña" autocomplete="off"><button id="entrar">Entrar</button><div id="err" class="st" style="color:var(--bad)"></div></div>
+<div class="hoja" id="hoja" hidden>
+ <div class="cab"><div class="foto" id="foto"></div><div class="nom" id="nom"></div><button class="salir" id="salir">Salir</button></div>
+ <div class="chips" id="chips"></div>
+ <div class="tabs" id="tabs"><button data-t="ficha" class="on">Ficha</button><button data-t="acc">Acciones</button><button data-t="inv">Inventario</button><button data-t="dados">Dados</button></div>
+ <section data-p="ficha"></section><section data-p="acc" hidden></section><section data-p="inv" hidden></section><section data-p="dados" hidden></section>
+</div>
+<script src="vtt-core.js"></script><script>
+let myId=(()=>{try{return localStorage.getItem('pj-'+SALA_FIJA)}catch(e){return null}})();
+const me=()=>PL.find(p=>p.id==myId);
+const LK=()=>'hoja-'+myId,lee=()=>{try{return JSON.parse(localStorage.getItem(LK()))||{}}catch(e){return{}}},graba=o=>{try{localStorage.setItem(LK(),JSON.stringify(o))}catch(e){}};
+// ---------- acceso ----------
+function login(){$('hoja').hidden=true;$('login').hidden=false;
+const ok=()=>{const id=CLAVES[hashClave($('clave').value)];if(!id){$('err').textContent='Contraseña incorrecta.';return}myId=id;try{localStorage.setItem('pj-'+SALA_FIJA,id)}catch(e){}abrir()};
+$('entrar').onclick=ok;$('clave').onkeydown=e=>{if(e.key=='Enter')ok()};$('clave').focus()}
+$('salir').onclick=()=>{try{localStorage.removeItem('pj-'+SALA_FIJA)}catch(e){}location.reload()};
+// ---------- guía de dados ----------
+const poli={4:'50,8 92,86 8,86',6:'14,14 86,14 86,86 14,86',8:'50,4 94,50 50,96 6,50',10:'50,4 92,40 50,96 8,40',12:'50,4 92,32 78,88 22,88 8,32',20:'50,4 92,27 92,73 50,96 8,73 8,27',100:'50,4 92,40 50,96 8,40'};
+const dadoSvg=s=>`<svg viewBox="0 0 100 100"><polygon points="${poli[s]}" fill="#163a66" stroke="#62b0ff" stroke-width="4" stroke-linejoin="round"/><text x="50" y="${s==4?72:60}" text-anchor="middle" font-family="Cinzel,serif" font-weight="700" font-size="${s==100?22:28}" fill="#e6f3ff">${s==100?'%':s}</text></svg>`;
+const DADOS=[[20,'d20 · ¿lo consigues?','Ataques contra la CA del enemigo, pruebas de habilidad y salvaciones. Tiras d20 y sumas tu modificador; si igualas o superas la dificultad del DM, lo logras. 20 natural = ¡crítico! · 1 natural = pifia.'],
+[4,'d4','Daño de armas pequeñas (dagas, dardos), hechizos menores y bonos como Bendición (+1d4).'],
+[6,'d6','Armas comunes (bastón, machete, arco corto), golpes de Ki y daño furtivo.'],
+[8,'d8','Armas versátiles (espada larga, arco largo, hacha de una mano) y curaciones medias.'],
+[10,'d10','Armas pesadas (lanzas, mandobles) y vida de guerreros y paladines al subir de nivel.'],
+[12,'d12','Armas masivas de dos manos y vida de bárbaros.'],
+[100,'d100 · porcentaje','Tablas de botín, crafteo y eventos al azar (se tira como dos d10).']];
+// ---------- hoja ----------
+function abrir(){const p=me();if(!p)return login();$('login').hidden=true;$('hoja').hidden=false;document.title=p.nom;
+const L=lee();if(L.hp==null)L.hp=p.hp;if(L.oro==null)L.oro=0;L.extra=L.extra||[];graba(L);
+const f=$('foto');f.textContent=p.nom[0];const im=new Image();im.src=p.img;im.alt=p.nom;im.onload=()=>{f.textContent='';f.append(im)};
+$('nom').innerHTML=`<h1 class="cz">${esc(p.nom)}</h1>${p.alias?`<div class="al">«${esc(p.alias)}»</div>`:''}<small>${esc(p.raza)} · ${esc(p.cls)} · Jugador: ${esc(p.jug)}</small>`;
+pintar()}
+function pintar(){const p=me(),L=lee(),A=k=>document.querySelector(`[data-p="${k}"]`);
+$('chips').innerHTML=`<div class="chip pv"><b>${L.hp}/${p.hp}</b><span>Vida</span></div><div class="chip cav"><b>${p.ca}</b><span>Armadura</span></div><div class="chip"><b>${p.vel||30}</b><span>Pies / turno</span></div>`;
+A('ficha').innerHTML=`<h2>Atributos</h2><div class="atg">${ATR.map((n,i)=>`<div class="at"><span>${AB[i]}</span><b>${p.at[i]}</b><i>${sg(mod(p.at[i]))}</i></div>`).join('')}</div>
+<p class="nota">El número pequeño es lo que sumas al d20 cuando el DM te pide una prueba de ese atributo.</p>
+<h2>Mis contadores</h2><div class="row"><span>❤ Vida actual</span><span class="trk"><button data-k="hp" data-d="-1">−</button><b>${L.hp} / ${p.hp}</b><button data-k="hp" data-d="1">+</button></span></div>
+<div class="row"><span>💰 Oro</span><span class="trk"><button data-k="oro" data-d="-1">−</button><b>${L.oro}</b><button data-k="oro" data-d="1">+</button></span></div>
+${(p.rec||[]).map(r=>{const v=L['r_'+r.id]??r.v;return`<div class="row"><span>${esc(r.n)}</span><span class="trk"><button data-k="r_${r.id}" data-d="-1">−</button><b>${v} / ${r.max}</b><button data-k="r_${r.id}" data-d="1">+</button></span></div>`}).join('')}
+<p class="nota">Anótalos cuando el DM te lo diga; se guardan en este navegador.</p>
+<h2>Habilidades</h2>${(p.sk||[]).map(x=>`<div class="row"><span>${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join('')||'<p class="nota">—</p>'}
+<h2>Rasgos</h2>${(p.ab||[]).map(x=>`<div class="card"><b>${esc(x[0])}</b><small>${esc(x[1])}</small></div>`).join('')}`;
+A('acc').innerHTML=`<h2>Ataque</h2><div class="card arma"><span class="tir">d20${sg(mod(p.at[p.atk]))}</span><b>⚔ ${esc(p.arma[0])}</b><small>Para golpear: tira d20 ${sg(mod(p.at[p.atk]))}. Si aciertas, el daño es <b>${esc(p.arma[1])}</b>. Con 20 natural, tira el doble de dados de daño.</small></div>
+<h2>Acciones especiales</h2>${(p.acc||[]).map(a=>`<div class="card">${a[1]?`<span class="tir">${esc(a[1].replace('1d20','d20'))}</span>`:''}<b>${esc(a[0])}</b><small>${esc(a[2])}</small></div>`).join('')||'<p class="nota">—</p>'}`;
+const base=p.inv.map(x=>({n:x[0],q:x[1]}));
+A('inv').innerHTML=`<h2>Inventario inicial</h2>${base.map(it=>`<div class="row"><span>${esc(it.n)}</span><b>×${it.q}</b></div>`).join('')}
+<h2>Lo que voy encontrando</h2>${L.extra.map((it,i)=>`<div class="row"><span>${esc(it.n)}</span><span><b>×${it.q}</b> <button data-x="${i}" title="Quitar">✕</button></span></div>`).join('')||'<p class="nota">Aún nada. Cuando el DM te dé algo (un cofre, una compra, un regalo), anótalo aquí.</p>'}
+<div class="add"><input id="in" placeholder="Objeto"><input id="iq" type="number" value="1" min="1"><button id="ia">Anotar</button></div>`;
+A('dados').innerHTML=`<h2>¿Para qué sirve cada dado?</h2><div class="dg">${DADOS.map(([s,t,d])=>`<div class="dd">${dadoSvg(s)}<div><b>${t}</b><small>${d}</small></div></div>`).join('')}</div>
+<div class="res"><b>Resumen:</b> el d20 dice si aciertas; del d4 al d12 dicen cuánto daño haces; el d100 decide recompensas y azar.<br><b>Tu ataque:</b> d20${sg(mod(p.at[p.atk]))} para acertar → ${esc(p.arma[1])} de daño.</div>`;
+$('ia').onclick=()=>{const n=$('in').value.trim();if(!n)return;const L=lee();L.extra.push({n,q:Math.max(1,+$('iq').value||1)});graba(L);pintar()};$('in').onkeydown=e=>{if(e.key=='Enter')$('ia').click()}}
+document.addEventListener('click',e=>{const t=e.target.closest('#tabs [data-t]');if(t){[...$('tabs').children].forEach(b=>b.classList.toggle('on',b==t));document.querySelectorAll('[data-p]').forEach(s=>s.hidden=s.dataset.p!=t.dataset.t);scrollTo({top:$('tabs').offsetTop,behavior:'smooth'});return}
+const k=e.target.closest('[data-k]');if(k){const p=me(),L=lee(),key=k.dataset.k,d=+k.dataset.d;let mx=Infinity;if(key=='hp')mx=p.hp;const r=(p.rec||[]).find(z=>'r_'+z.id==key);if(r)mx=r.max;L[key]=Math.max(0,Math.min(mx,(L[key]??(key=='hp'?p.hp:r?r.v:0))+d));graba(L);pintar();return}
+const x=e.target.closest('[data-x]');if(x){const L=lee();L.extra.splice(+x.dataset.x,1);graba(L);pintar()}});
+if(me())abrir();else login();
+</script></body></html>
