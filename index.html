@@ -124,7 +124,6 @@ footer{margin-top:50px;color:var(--mu);font-size:14px;text-align:center}
 <footer>Pasá el mouse sobre las clases de Nivel 3 y Nivel 7 para ver requisitos y recompensas completas.</footer></section>
 <section id="v-jug" hidden><h1>Jugadores</h1><p class="lead">Toca la tarjeta de un jugador para ver la ficha de su personaje.</p><div class="pl" id="pl"></div>
 <h2 class="dmh">Dungeon Master</h2><div class="dml"><button class="pk dmk" id="dmk"><div class="jg">DUNGEON MASTER</div><div class="ph" id="dmph">A</div><div class="pj">ARCAMEL<small>El Arquitecto del Destino · Nv ∞</small></div></button></div>
-<h2 class="dmh">Entrar como jugador</h2><div class="ent"><p class="lead">Escribe la contraseña que te dio el DM para abrir la ficha de tu personaje.</p><div class="entf"><input id="clv" type="password" placeholder="Contraseña" autocomplete="off"><button id="clvok">Entrar</button></div><div id="clverr" class="enterr"></div></div>
 </section>
 <section id="v-bes" hidden><h1>Compendio</h1><p class="lead">Todo lo que existe en el mundo, en seis pestañas: <b>Entidades</b> (criaturas, jefes, mercaderes y herreros), <b>Objetos</b> (materiales, minerales, reliquias y artefactos), <b>Crafteo</b> (lo que puedes fabricar), <b>Armaduras</b> (por espacio del cuerpo) y <b>Runas</b> (mejoras para armaduras y armas) y <b>Armas</b> (daño por nivel). Usa el buscador para encontrar algo por nombre, botín, zona o receta.</p>
 <div class="sr"><div class="ct" id="ct"><button aria-pressed="true">⚔ Entidades</button><button aria-pressed="false">🎒 Objetos</button><button aria-pressed="false">🔨 Crafteo</button><button aria-pressed="false">🛡 Armaduras</button><button aria-pressed="false">✨ Runas</button><button aria-pressed="false">🗡 Armas</button></div><input id="q" type="search" placeholder="Buscar en el compendio…" aria-label="Buscar"></div>
@@ -297,9 +296,5 @@ g('dmk').onclick=()=>{md.innerHTML='<div class="bx"><div class="mh"><div class="
  const i2=new Image();i2.src='DMper.jpg';i2.onload=()=>{const p=g('dmph2');p.textContent='';p.append(i2)};
  const mt=md.querySelector('.mt'),mb=md.querySelector('.mb'),sel=i=>{[...mt.children].forEach((b,j)=>b.setAttribute('aria-selected',j==i));mb.innerHTML=T[i][1]};
  T.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t[0];b.onclick=()=>sel(i);mt.append(b)});sel(0);md.querySelector('.x').onclick=cerrar;md.style.display='block';document.body.style.overflow='hidden';md.scrollTop=0};
-// mismas contraseñas que vtt-core.js (CLAVES / hashClave)
-const SALA='arcamel-rosune-3294',CL={"adbtox":"grik","16jwzml":"astaroth","99c0xe":"empanada","1284mh4":"kael","1lgagpr":"zaurus","1ave12e":"hikki","77ru4o":"yamiji","124oa2k":"clematy"};
-const hash=s=>{let x=2166136261;for(const c of String(s).trim().toLowerCase()){x^=c.codePointAt(0);x=Math.imul(x,16777619)>>>0}return x.toString(36)};
-const entrar=()=>{const h=hash(g('clv').value);if(!CL[h]){g('clverr').textContent='Contraseña incorrecta.';return}try{localStorage.setItem('pj-'+SALA,CL[h])}catch(e){}location.href='jugador.html#k='+h};
-g('clvok').onclick=entrar;g('clv').onkeydown=e=>{if(e.key==='Enter')entrar()}})();
+})();
 </script></body></html>
