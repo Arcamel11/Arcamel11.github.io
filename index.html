@@ -124,6 +124,7 @@ footer{margin-top:50px;color:var(--mu);font-size:14px;text-align:center}
 <footer>Pasá el mouse sobre las clases de Nivel 3 y Nivel 7 para ver requisitos y recompensas completas.</footer></section>
 <section id="v-jug" hidden><h1>Jugadores</h1><p class="lead">Toca la tarjeta de un jugador para ver la ficha de su personaje.</p><div class="pl" id="pl"></div>
 <h2 class="dmh">Dungeon Master</h2><div class="dml"><button class="pk dmk" id="dmk"><div class="jg">DUNGEON MASTER</div><div class="ph" id="dmph">A</div><div class="pj">ARCAMEL<small>El Arquitecto del Destino · Nv ∞</small></div></button></div>
+
 </section>
 <section id="v-bes" hidden><h1>Compendio</h1><p class="lead">Todo lo que existe en el mundo, en seis pestañas: <b>Entidades</b> (criaturas, jefes, mercaderes y herreros), <b>Objetos</b> (materiales, minerales, reliquias y artefactos), <b>Crafteo</b> (lo que puedes fabricar), <b>Armaduras</b> (por espacio del cuerpo) y <b>Runas</b> (mejoras para armaduras y armas) y <b>Armas</b> (daño por nivel). Usa el buscador para encontrar algo por nombre, botín, zona o receta.</p>
 <div class="sr"><div class="ct" id="ct"><button aria-pressed="true">⚔ Entidades</button><button aria-pressed="false">🎒 Objetos</button><button aria-pressed="false">🔨 Crafteo</button><button aria-pressed="false">🛡 Armaduras</button><button aria-pressed="false">✨ Runas</button><button aria-pressed="false">🗡 Armas</button></div><input id="q" type="search" placeholder="Buscar en el compendio…" aria-label="Buscar"></div>
@@ -297,4 +298,7 @@ g('dmk').onclick=()=>{md.innerHTML='<div class="bx"><div class="mh"><div class="
  const mt=md.querySelector('.mt'),mb=md.querySelector('.mb'),sel=i=>{[...mt.children].forEach((b,j)=>b.setAttribute('aria-selected',j==i));mb.innerHTML=T[i][1]};
  T.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t[0];b.onclick=()=>sel(i);mt.append(b)});sel(0);md.querySelector('.x').onclick=cerrar;md.style.display='block';document.body.style.overflow='hidden';md.scrollTop=0};
 })();
+</script><script>
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),c=e.ctrlKey||e.metaKey;if(k=='f12'||(c&&['s','u','p'].includes(k))||(c&&e.shiftKey&&['i','j','c','k'].includes(k))||(e.metaKey&&e.altKey&&['i','j','c','u'].includes(k))){e.preventDefault();e.stopPropagation()}},true);
 </script></body></html>
